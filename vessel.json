@@ -1,0 +1,10 @@
+{
+  "name": "self-evolve-ai",
+  "displayName": "Self-Evolve",
+  "type": "cocapn-vessel",
+  "category": "infrastructure",
+  "description": "Git-agent that tests its own mutations via branch A/B testing.",
+  "capabilities": ["self-evolution", "branch-ab-testing", "mutation-scoring", "overnight-mode"],
+  "endpoints": { "health": "/health", "seeds": "/api/seeds", "evolve": "/api/evolve", "history": "/api/history", "chat": "/api/chat" },
+  "deployment": { "url": "https://self-evolve-ai.casey-digennaro.workers.dev" }
+}
