@@ -1,0 +1,8 @@
+name = "self-evolve-ai"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+account_id = "049ff5e84ecf636b53b162cbb580aae6"
+
+[[kv_namespaces]]
+binding = "EVOLVE_KV"
+id = "EVOLVE_KV_ID"
