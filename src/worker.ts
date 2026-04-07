@@ -13,14 +13,14 @@ const DS_URL = 'https://api.deepseek.com/chat/completions';
 function json(data: any, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    headers: { 'Content-Type': 'application/json', 'Content-Security-Policy': 'default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*; frame-ancestors 'none';', 'Access-Control-Allow-Origin': '*' },
   });
 }
 
 async function llm(prompt: string, key: string, system = 'You are a precise evaluator. Score 1-10.'): Promise<string> {
   const r = await fetch(DS_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+    headers: { 'Content-Type': 'application/json', 'Content-Security-Policy': 'default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*; frame-ancestors 'none';', 'Authorization': 'Bearer ' + key },
     body: JSON.stringify({ model: 'deepseek-chat', messages: [{ role: 'system', content: system }, { role: 'user', content: prompt }], max_tokens: 500, temperature: 0.3 }),
   });
   if (!r.ok) throw new Error('LLM ' + r.status);
@@ -36,7 +36,7 @@ async function ghGet(path: string, token: string): Promise<any> {
 async function ghPost(path: string, token: string, body: any): Promise<any> {
   const r = await fetch(GH_API + path, {
     method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'self-evolve-ai/1.0', 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'self-evolve-ai/1.0', 'Content-Type': 'application/json', 'Content-Security-Policy': 'default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*; frame-ancestors 'none';' },
     body: JSON.stringify(body),
   });
   return r.json();
@@ -45,7 +45,7 @@ async function ghPost(path: string, token: string, body: any): Promise<any> {
 async function ghPut(path: string, token: string, body: any): Promise<any> {
   const r = await fetch(GH_API + path, {
     method: 'PUT',
-    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'self-evolve-ai/1.0', 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'self-evolve-ai/1.0', 'Content-Type': 'application/json', 'Content-Security-Policy': 'default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*; frame-ancestors 'none';' },
     body: JSON.stringify(body),
   });
   return r.json();
