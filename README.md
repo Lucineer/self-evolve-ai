@@ -1,66 +1,65 @@
-# Self-Evolve AI
+# self-evolve-ai
+An agent that rewrites itself. Every run creates a git branch, modifies its own source code, scores the change, and decides to keep or discard it. All inside one Cloudflare Worker request. The repository *is* the agent. Branches are its experiments. 🧪
 
-An experimental agent that modifies its own code through controlled, measurable iterations.
-
----
-
-## Why this exists
-Most AI agents execute predefined tasks. This one attempts to improve its own implementation through systematic, version-controlled experiments. You define success criteria; it generates, tests, and selectively integrates changes.
-
-## What this does
-This is a git-native system that runs A/B tests on code changes. Each proposed mutation becomes a standard git branch. Changes are evaluated against your criteria via existing CI; successful ones are merged, others discarded. You retain full visibility and control over the entire history.
-
-**Live instance:** https://self-evolve-ai.casey-digennaro.workers.dev
+Live instance: https://self-evolve-ai.casey-digennaro.workers.dev
 
 ---
 
-## Core Features
-- **Isolated Branch Testing**: Every change is proposed and tested in a separate branch.
-- **Criteria-Based Scoring**: Uses an LLM to score changes 1-10 against your defined goals.
-- **Selective Merging**: Only changes exceeding a score threshold are merged to main.
-- **Scheduled Execution**: Runs evolution cycles on a configurable schedule.
-- **Zero Dependencies**: Runs entirely on Cloudflare Workers.
-- **Complete Git History**: Every experiment and decision is a normal commit.
-- **Self-Hosted**: Uses your own API keys and GitHub repository.
-
----
-
-## How It Works
-The agent operates in a loop:
-1. Proposes a small, focused code change.
-2. Creates a new git branch with the change.
-3. Triggers your existing CI/test suite on that branch.
-4. Scores the outcome against your success criteria.
-5. Merges the branch if the score passes, or deletes it.
-
----
-
-## Limitations
-This is a foundational prototype. The evolution is guided by your scoring criteria and the LLM's ability to propose coherent changes; significant architectural improvements are unlikely without human guidance.
+## Why This Exists
+Most self-modifying AI demos run on hidden infrastructure, vanish when turned off, and lock you out of the iteration loop. This one lives in your git repo. It does not phone home. It runs on GitHub and Cloudflare.
 
 ---
 
 ## Quick Start
-1. **Fork** this repository.
-2. Deploy to Cloudflare Workers.
-3. Add `DEEPSEEK_API_KEY` and `GITHUB_TOKEN` as Worker secrets.
-4. Modify the scoring function in the Worker code to reflect your goals.
+Get it running in under 4 minutes:
+1.  Fork this repository.
+2.  Deploy directly to Cloudflare Workers (no build step).
+3.  Add `DEEPSEEK_API_KEY` and `GITHUB_TOKEN` as Worker secrets.
+4.  Edit the scoring function once to define what "better" means for your task.
+
+---
+
+## Features
+- Each proposed mutation becomes a standard git branch for isolated testing.
+- An LLM scores every change 1-10 against your written success criteria.
+- Only branches that clear your threshold are merged to main.
+- Run on a cron schedule or trigger a mutation manually.
+- Zero runtime dependencies.
+- Full, auditable git history for every idea and decision.
+- You own all of it.
+
+---
+
+## What Makes This Different
+1.  **Transparent Process**: Every action is a normal git commit you can browse directly on GitHub. No hidden agent process.
+2.  **Single Request Loop**: The entire evolution cycle runs start-to-finish inside one edge request. No queues, databases, or containers to manage.
+3.  **Fork-First Design**: Once you fork this, yours is the real one. No central upstream version that can be updated or shut off.
+
+---
+
+## How It Runs
+The agent executes one clean loop per request:
+1.  Reads its own current source code from main.
+2.  Proposes one small, targeted change.
+3.  Creates a fresh branch and commits the change.
+4.  Scores the result against your defined rules.
+5.  Merges the successful branch or deletes it.
+
+---
+
+## Important Limitation
+This is a focused iteration engine. Each evolution cycle must complete within the Cloudflare Worker timeout limit (10 seconds on the free plan), which constrains the scope of changes per run. It will refine, fix bugs, and optimize based on your scoring function, but will not autonomously design major new system components.
 
 ---
 
 ## Contributing
-This is a fork-first project. There is no central maintainer. Fork it, run your own evolution, and open a pull request if your agent finds a useful change.
+This is a fork-first project. There is no central maintainer. Fork it, run your own evolution, and open a PR if your agent discovers a useful improvement.
 
 ---
 
 ## License
-MIT License. Part of the Cocapn Fleet.
+MIT License.
 
-**Attribution:** Superinstance & Lucineer (DiGennaro et al.)
+Attribution: Superinstance and Lucineer (DiGennaro et al.)
 
----
-
-<div align="center">
-  <a href="https://the-fleet.casey-digennaro.workers.dev">The Fleet</a> • 
-  <a href="https://cocapn.ai">Cocapn</a>
-</div>
+<div style="text-align:center;padding:16px;color:#64748b;font-size:.8rem"><a href="https://the-fleet.casey-digennaro.workers.dev" style="color:#64748b">The Fleet</a> &middot; <a href="https://cocapn.ai" style="color:#64748b">Cocapn</a></div>
